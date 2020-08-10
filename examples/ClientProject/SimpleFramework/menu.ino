@@ -7,9 +7,16 @@
 // 2) Update appName to add the title of the app.
 // 3) in the main routine in TWatch_framework, add a case to the switch statement to call your app routine.
 
+// MP - tweaked the menu to leave a larger area in the middle to hopefully give easier navigation
+// MP - added Vibe buzz for selection
+// MP - added "click" for tactile feedback
+// MP - added button short-press to open menu
+// MP - added IFTTT Trigger
+// MP - TO DO :
+// MP Add support for Accelerometer navigation on the menu
 
-const int maxApp = 6; // number of apps
-String appName[maxApp] = {"Clock", "Jupiter", "Accel", "Battery", "Touch", "Set Time"}; // app names
+const int maxApp = 8; // number of apps
+String appName[maxApp] = {"Clock", "Jupiter", "Accel", "Battery", "Touch", "Set Time", "NTPTime", "IFTTT"}; // app names
 
 uint8_t modeMenu() {
   int mSelect = 0; // The currently highlighted app
@@ -21,21 +28,23 @@ uint8_t modeMenu() {
 
   while (!exitMenu) {
     if (ttgo->getTouch(x, y)) { // If you have touched something...
-
+      clickVibe();
       while (ttgo->getTouch(x, y)) {} // wait until you stop touching
 
-      if (y >= 160) { // you want the menu list shifted up
+      //if (y >= 160) { // you want the menu list shifted up
+      if (y >= 180) { // you want the menu list shifted up
         mSelect += 1;
         if (mSelect == maxApp) mSelect = 0;
         setMenuDisplay(mSelect);
       }
-
-      if (y <= 80) { // you want the menu list shifted down
+      //if (y <= 80) { // you want the menu list shifted down
+      if (y <= 60) { // you want the menu list shifted down
         mSelect -= 1;
         if (mSelect < 0) mSelect = maxApp - 1;
         setMenuDisplay(mSelect);
       }
       if (y > 80 && y < 160) { // You selected the middle
+        quickBuzz();
         exitMenu = true;
       }
     }
@@ -46,6 +55,20 @@ uint8_t modeMenu() {
   return mSelect;
 
 }
+void quickBuzz() 
+{
+  digitalWrite(4, HIGH);
+  delay(50);
+  digitalWrite(4, LOW);
+}
+
+void clickVibe() 
+{
+  digitalWrite(4, HIGH);
+  delay(25);
+  digitalWrite(4, LOW);
+}
+
 
 void setMenuDisplay(int mSel) {
 
