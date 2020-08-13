@@ -21,8 +21,7 @@ const int httpsPort = 443;
   const int httpPort = 80;
   client.connect(host, httpPort);
   String url = "/trigger/" + event +"/with/key/" + key;
-//  Serial.print("requesting URL: ");
-//  Serial.println(url);
+
 
   client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                "Host: " + host + "\r\n" +
