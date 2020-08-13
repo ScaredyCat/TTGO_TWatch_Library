@@ -1,8 +1,8 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 
-//String key = "KEY";
-//String event = "Event"; 
+String key = "KEY";
+String event = "Event"; 
 
 void appIFTTT() {
 const char* ssid     = "SSID";
